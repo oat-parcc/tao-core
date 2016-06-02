@@ -60,5 +60,8 @@
 		"files" : [
 			"includes/globalHelpers.php"
 		]
+	},
+	"replace": {
+		"oat-sa/tao-core": "*"
 	}
 }
