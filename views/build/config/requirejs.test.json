@@ -37,6 +37,7 @@
         "mediaElement"      : "lib/mediaelement/mediaelement-and-player",
         "mathJax"           : "../../../taoQtiItem/views/js/mathjax/MathJax",
         "ckeditor"          : "lib/ckeditor/ckeditor",
+        "interact"          : "lib/interact",
 
         "i18ntr"            : "../locales/en-US"
    },

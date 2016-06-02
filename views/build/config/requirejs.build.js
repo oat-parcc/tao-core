@@ -43,6 +43,7 @@ require.config({
         'mediaElement'      : 'lib/mediaelement/mediaelement-and-player',
         'mathJax'           : '../../../taoQtiItem/views/js/mathjax/MathJax',
         'ckeditor'          : 'lib/ckeditor/ckeditor',
+        'interact'          : 'lib/interact',
 
 //optimizer needed
         'css-builder'       : 'lib/require-css/css-builder',
