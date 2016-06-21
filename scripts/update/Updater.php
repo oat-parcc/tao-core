@@ -441,13 +441,13 @@ class Updater extends \common_ext_ExtensionUpdater {
             $this->setVersion('2.15.3');
         }
         
-        if($this->isVersion('2.15.3','2.15.5')){
+        if($this->isBetween('2.15.3','2.15.4')){
             //update lg sync ontology
             OntologyUpdater::syncModels();
             $this->setVersion('2.15.5');
         }
 
-        $this->skip('2.15.5', '2.16.0');
+        $this->skip('2.15.5', '2.16.1');
     }
     
     private function migrateFsAccess() {
