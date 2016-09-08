@@ -29,8 +29,8 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
      */
     var defaultSize = {
         video : {
-            width : 290,
-            height : 270
+            width : 480,
+            height : 300
         },
         audio : {
             width : 290,
