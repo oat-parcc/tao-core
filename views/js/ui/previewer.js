@@ -124,13 +124,20 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
             });
         },
         /**
+         * Set the player
+         * @private
+         */
+        _setPlayer: function($elt, player) {
+            $elt.data('player', player);
+        },
+        /**
          * Uninstalls the player if any
          * @private
          */
-        _clearPlayer: function() {
-            if (previewer.player) {
-                previewer.player.destroy();
-                previewer.player = null;
+        _clearPlayer: function($elt) {
+            if ($elt && $elt.data('player')) {
+                $elt.data('player').destroy();
+                $elt.removeData('player');
             }
         },
         /**
@@ -140,12 +147,12 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
          */
         _update: function($elt) {
             var self = previewer;
+            var player;
             var $content, $controls;
             var options = $elt.data(dataNs);
             var content, type;
 
-            self._clearPlayer();
-
+            self._clearPlayer($elt);
             if (options) {
                 type = options.type || mimeType.getFileType({mime: options.mime, name: options.url});
 
@@ -173,26 +180,27 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
                 }
 
                 $elt.empty().html($content);
-                if (type === 'audio' || type === 'video') {
-                    if (options.url) {
-                        self.player = mediaplayer({
-                            url: options.url,
-                            type: options.mime,
-                            renderTo: $content
-                        })
+                if(options.url){
+                    if (type === 'audio' || type === 'video') {
+                        player = mediaplayer({
+                                url: options.url,
+                                type: options.mime,
+                                renderTo: $content
+                            })
                             .on('ready', function() {
                                 var defSize = defaultSize[this.getType()] || defaultSize.video;
                                 var width = options.width || defSize.width;
                                 var height = options.height || defSize.height;
                                 this.resize(width, height);
                             });
+                        self._setPlayer($elt, player);
 
                         // stop video and free the socket on escape keypress(modal window hides)
                         $('body')
                             .off('keydown.mediaelement')
                             .on('keydown.mediaelement', function(event) {
                                 if (event.keyCode === 27) {
-                                    self._clearPlayer();
+                                    self._clearPlayer($elt);
                                 }
                             });
 
@@ -204,7 +212,7 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
                             event.stopPropagation();
                             if (!$(this).closest('.mediaplayer').length) {
                                 $controls.off('mousedown.mediaelement');
-                                self._clearPlayer();
+                                self._clearPlayer($elt);
                             }
                         });
                     }
@@ -217,7 +225,6 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
                 $elt.trigger('update.' + ns);
             }
         },
-        player: null,
         /**
          * Destroy completely the plugin.
          *
@@ -226,11 +233,9 @@ function($, _, __, mimeType, Pluginifier, mediaplayer, iframeNotifier) {
          * @public
          */
         destroy: function() {
-            previewer._clearPlayer();
-
             this.each(function() {
                 var $elt = $(this);
-
+                previewer._clearPlayer($elt);
                 /**
                  * The plugin has been destroyed.
                  * @event previewer#destroy.previewer
