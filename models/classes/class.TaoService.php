@@ -41,6 +41,8 @@ class tao_models_classes_TaoService
      */
     const CONFIG_UPLOAD_FILESOURCE = 'defaultUploadFileSource';
 
+    const CONFIG_EXPORT_FILESOURCE = 'defaultExportFileSource';
+
     /**
      * Set the default file source for TAO File Upload.
      *
@@ -51,10 +53,10 @@ class tao_models_classes_TaoService
      */
     public function setUploadFileSource( core_kernel_versioning_Repository $source)
     {
-        
+
     	$ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
     	$ext->setConfig(self::CONFIG_UPLOAD_FILESOURCE, $source->getUri());
-        
+
     }
 
     /**
@@ -68,7 +70,7 @@ class tao_models_classes_TaoService
     {
         $returnValue = null;
 
-        
+
         $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
         $uri = $ext->getConfig(self::CONFIG_UPLOAD_FILESOURCE);
         if (!empty($uri)) {
@@ -76,7 +78,40 @@ class tao_models_classes_TaoService
         } else {
         	throw new common_Exception('No default repository defined for uploaded files storage.');
         }
-        
+
+
+        return $returnValue;
+    }
+
+
+    public function setExportFileSource( core_kernel_versioning_Repository $source)
+    {
+
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $ext->setConfig(self::CONFIG_EXPORT_FILESOURCE, $source->getUri());
+
+    }
+
+    /**
+     * Returns the default TAO Upload File source repository.
+     *
+     * @access public
+     * @author Jerome Bogaerts, <jerome@taotesting.com>
+     * @return core_kernel_versioning_Repository
+     */
+    public function getExportFileSource()
+    {
+        $returnValue = null;
+
+
+        $ext = common_ext_ExtensionsManager::singleton()->getExtensionById('tao');
+        $uri = $ext->getConfig(self::CONFIG_EXPORT_FILESOURCE);
+        if (!empty($uri)) {
+            $returnValue = new core_kernel_versioning_Repository($uri);
+        } else {
+            throw new common_Exception('No default repository defined for uploaded files storage.');
+        }
+
 
         return $returnValue;
     }

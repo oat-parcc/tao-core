@@ -200,7 +200,8 @@ class tao_helpers_Http
                     if ($pathinfo['extension'] === 'svgz' && !$svgzSupport) {
                         header('Content-Encoding: gzip');
                     }
-                    
+
+                    header('Content-Disposition: inline; filename="'.basename($filename).'"');
                     // session must be closed because, for example, video files might take a while to be sent to the client
                     //  and we need the client to be able to make other calls to the server during that time
                     session_write_close();
