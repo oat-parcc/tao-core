@@ -25,6 +25,7 @@ use common_ext_ExtensionsManager;
 use oat\tao\model\accessControl\func\implementation\SimpleAccess;
 use oat\tao\model\asset\AssetService;
 use oat\tao\model\ClientLibConfigRegistry;
+use oat\tao\model\export\ExportService;
 use tao_helpers_data_GenerisAdapterRdf;
 use common_Logger;
 use oat\tao\model\search\SearchService;
@@ -448,6 +449,19 @@ class Updater extends \common_ext_ExtensionUpdater {
         }
 
         $this->skip('2.15.5', '2.17.0');
+
+        if ($this->isVersion('2.17.0')) {
+            AclProxy::applyRule(new AccessRule('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole', ['ext'=>'tao','mod' => 'TaskQueueData']));
+            $this->getServiceManager()->register(ExportService::SERVICE_ID, new ExportService());
+            $dataPath = FILES_PATH.'tao'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR;
+            if (file_exists($dataPath)) {
+                \helpers_File::emptyDirectory($dataPath);
+            }
+
+            $source = \tao_models_classes_FileSourceService::singleton()->addLocalSource('fileExportSource', $dataPath);
+            \tao_models_classes_TaoService::singleton()->setExportFileSource($source);
+            $this->setVersion('2.18.0');
+        }
     }
     
     private function migrateFsAccess() {
