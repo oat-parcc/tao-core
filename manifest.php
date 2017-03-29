@@ -27,7 +27,7 @@ return array(
     'label' => 'Tao base',
     'description' => 'TAO meta-extension',
     'license' => 'GPL-2.0',
-    'version' => '2.17.0',
+    'version' => '2.18.0',
     'author' => 'Open Assessment Technologies, CRP Henri Tudor',
     'requires' => array(
         'generis' => '>=2.7.1'
@@ -59,7 +59,6 @@ return array(
                 array('type' => 'CheckPHPExtension', 'value' => array('id' => 'tao_extension_suhosin', 'name' => 'suhosin', 'silent' => true)),
                 array('type' => 'CheckCustom',      'value' => array('id' => 'tao_extension_opcache', 'name' => 'opcache', 'optional' => true, 'extension' => 'tao')),
                 array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_opcache_save_comments', 'name' => 'opcache.save_comments', 'value' => '1', 'dependsOn' => array('tao_extension_opcache'))),
-                array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_opcache_load_comments', 'name' => 'opcache.load_comments', 'value' => '1', 'dependsOn' => array('tao_extension_opcache'))),
                 array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_suhosin_post_max_name_length', 'name' => 'suhosin.post.max_name_length', 'value' => '128', 'dependsOn' => array('tao_extension_suhosin'))),
                 array('type' => 'CheckPHPINIValue', 'value' => array('id' => 'tao_ini_suhosin_request_max_varname_length', 'name' => 'suhosin.request.max_varname_length', 'value' => '128', 'dependsOn' => array('tao_extension_suhosin'))),
                 array('type' => 'CheckFileSystemComponent', 'value' => array('id' => 'fs_data', 'location' => 'data', 'rights' => 'rw', 'recursive' => true)),
@@ -72,6 +71,7 @@ return array(
         ),
         'php' => array(
             dirname(__FILE__).'/scripts/install/addFileUploadSource.php',
+            dirname(__FILE__).'/scripts/install/addFileExportSource.php',
             dirname(__FILE__).'/scripts/install/setSimpleAccess.php',
             dirname(__FILE__).'/scripts/install/setupServiceFileStorage.php',
             dirname(__FILE__).'/scripts/install/setServiceState.php',
@@ -95,6 +95,7 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'Main', 'act' => 'getSectionActions')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'Main', 'act' => 'getSectionTrees')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'Users', 'act' => 'checkLogin')),
+        array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'TaskQueueData')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'UserSettings')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'GenerisTree')),
         array('grant', 'http://www.tao.lu/Ontologies/TAO.rdf#BackOfficeRole',    array('ext'=>'tao','mod' => 'Search')),
