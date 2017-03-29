@@ -80,17 +80,16 @@ class ExportTask extends AbstractAction
 
         try {
             $report = $exporter->export($params, tao_helpers_Export::getExportPath());
-            $file = $report->getData();
-
         } catch (common_exception_UserReadableException $e) {
             $report = common_report_Report::createFailure($e->getUserMessage());
         }
 
 
         if ($report instanceof common_report_Report) {
+            $file = $report->getData();
 
 
-            if ($report->getType() === common_report_Report::TYPE_ERROR || $report->containsError()) {
+            if (is_null($file) || $report->getType() === common_report_Report::TYPE_ERROR || $report->containsError()) {
                 $report->setType(common_report_Report::TYPE_ERROR);
                 if (! $report->getMessage()) {
                     $report->setMessage(__('Error(s) has occurred during export.'));
@@ -103,6 +102,8 @@ class ExportTask extends AbstractAction
                 \tao_helpers_File::copy($file, $fs->getPath().basename($file));
                 $report->setData(basename($file));
             }
+        } else {
+            $report = common_report_Report::createFailure(__('Something went wrong during export'));
         }
 
 
