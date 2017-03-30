@@ -35,7 +35,6 @@ class DatatableRequest implements DatatableRequestInterface
     const DEFAULT_PAGE = 1;
     const DEFAULT_SORT_BY = null;
     const DEFAULT_SORT_ORDER = 'asc';
-    const DEFAULT_FILTERS = [];
 
     /**
      * @var array
@@ -114,7 +113,7 @@ class DatatableRequest implements DatatableRequestInterface
     public function getFilters()
     {
         $filters = isset($this->requestParams[self::PARAM_FILTERS]) ?
-            $this->requestParams[self::PARAM_FILTERS] : self::DEFAULT_FILTERS;
+            $this->requestParams[self::PARAM_FILTERS] : [];
 
         return $filters;
     }

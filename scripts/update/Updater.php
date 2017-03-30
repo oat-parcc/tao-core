@@ -462,6 +462,8 @@ class Updater extends \common_ext_ExtensionUpdater {
             \tao_models_classes_TaoService::singleton()->setExportFileSource($source);
             $this->setVersion('2.18.0');
         }
+
+        $this->skip('2.18.0', '2.18.1');
     }
     
     private function migrateFsAccess() {
