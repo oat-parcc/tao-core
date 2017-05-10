@@ -38,7 +38,10 @@
                     downloadUrl : helpers._url('download', 'TaskQueueData', 'tao')
                 })
                     .init()
-                    .render($queueArea);
+                    .render($queueArea)
+                    .on('error', function(msg){
+                        feedback().error(msg);
+                    });
 
             }
 
