@@ -89,22 +89,24 @@ class tao_helpers_Environment
      */
     private static function toBytes($phpSyntax)
     {
-        $returnValue = (int) 0;
-
         $val = trim($phpSyntax);
-        	$last = strtolower($val[strlen($val)-1]);
+        $last = strtolower($val[strlen($val)-1]);
+        if(!is_numeric($last)){
+            $val = substr($val, 0, -1);
         	switch($last) {
         		case 'g':
         			$val *= 1024;
-        		case 'm':
-        			$val *= 1024;
+                    break;
+                case 'm':
+                    $val *= 1024;
+                    break;
         		case 'k':
         			$val *= 1024;
+                    break;
         	}
-        
-        return $val;
+        }
 
-        return (int) $returnValue;
+        return $val;
     }
 
 }
